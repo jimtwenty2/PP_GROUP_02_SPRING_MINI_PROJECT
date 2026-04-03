@@ -35,3 +35,4 @@ build/
 .env
 
 src/main/resources/database/test.sql
+src/main/resources/application.properties
