@@ -4,16 +4,10 @@ import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.HabitRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
 import org.apache.ibatis.annotations.*;
 
+import java.util.UUID;
+
 @Mapper
 public interface HabitRepository {
-
-    @Select("INSERT INTO habits (title, description, frequency, is_active, created_at) " +
-            "VALUES (#{req.habitTitle}, #{req.description}, #{req.frequency}::habit_frequency, " +
-            "true, CURRENT_TIMESTAMP)")
-
-    Habit saveHabit(@Param("req") HabitRequest request);
-
-    @Select("SELECT * FROM habits WHERE habit_id = #{id}")
     @Results(id = "habitMapping", value = {
             @Result(property = "habitId", column = "habit_id"),
             @Result(property = "habitTitle", column = "title"),
@@ -22,5 +16,24 @@ public interface HabitRepository {
             @Result(property = "isActive", column = "is_active"),
             @Result(property = "createdAt", column = "created_at")
     })
+    @ResultMap("habitMapping")
+    @Select("INSERT INTO habits (title, description, frequency, is_active, created_at) " +
+            "VALUES (#{req.habitTitle}, #{req.description}, #{req.frequency}::habit_frequency, " +
+            "true, CURRENT_TIMESTAMP)")
+
+    Habit saveHabit(@Param("req") HabitRequest request);
+
+    @ResultMap("habitMapping")
+    @Select("SELECT * FROM habits WHERE habit_id = #{id}")
     Habit getHabitById(@Param("id") java.util.UUID id);
+
+    @ResultMap("habitMapping")
+    @Select("UPDATE habits SET " +
+            "title = #{req.habitTitle}, " +
+            "description = #{req.description}, " +
+            "frequency = #{req.frequency}::habit_frequency, " +
+            "is_active = #{req.isActive} " +
+            "WHERE habit_id = #{id}")
+
+    Habit updateHabitByID(UUID habitId, HabitRequest request);
 }

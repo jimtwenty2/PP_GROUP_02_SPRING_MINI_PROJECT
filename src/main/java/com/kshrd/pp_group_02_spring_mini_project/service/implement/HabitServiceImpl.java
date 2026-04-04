@@ -7,6 +7,8 @@ import com.kshrd.pp_group_02_spring_mini_project.service.HabitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class HabitServiceImpl implements HabitService {
@@ -18,6 +20,16 @@ public class HabitServiceImpl implements HabitService {
 
         return habitRepository.saveHabit(request);
 
+    }
+
+    @Override
+    public Habit getHabitById(UUID habitId) {
+        return habitRepository.getHabitById(habitId);
+    }
+
+    @Override
+    public Habit updateHabitById(UUID habitId, HabitRequest request) {
+        return habitRepository.updateHabitByID(habitId,request);
     }
 
 }

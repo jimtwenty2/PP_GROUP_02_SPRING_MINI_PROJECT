@@ -7,12 +7,10 @@ import com.kshrd.pp_group_02_spring_mini_project.service.HabitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/habits")
@@ -32,5 +30,34 @@ public class HabitController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getHabitById(@PathVariable("id") UUID habitId) {
+        ApiResponse<Habit> response = ApiResponse.<Habit>builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .message("Habit fetched successfully!")
+                .payload(habitService.getHabitById(habitId))
+                .timestamp(Instant.now())
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateHabit(
+            @PathVariable("id") UUID habitId,
+            @RequestBody HabitRequest request) {
+
+        ApiResponse<Habit> response = ApiResponse.<Habit>builder()
+                .success(true)
+                .status(HttpStatus.OK)
+                .message("Habit updated successfully!")
+                .payload(habitService.updateHabitById(habitId, request))
+                .timestamp(Instant.now())
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 }
