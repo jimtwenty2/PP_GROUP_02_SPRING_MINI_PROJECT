@@ -23,7 +23,7 @@ public class HabitLogServiceImpl implements HabitLogService {
 
     @Override
     public HabitLog getHabitLogById(Integer id) {
-        return null;
+        return habitLogRepository.getHabitLogByUserId(id);
     }
 
     @Override

@@ -74,3 +74,4 @@ CREATE TABLE habit_logs
         ON UPDATE CASCADE
 );
 
+

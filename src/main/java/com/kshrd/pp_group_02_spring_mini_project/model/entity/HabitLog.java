@@ -1,6 +1,6 @@
 package com.kshrd.pp_group_02_spring_mini_project.model.entity;
 
-import com.kshrd.pp_group_02_spring_mini_project.model.enums.HabitLogStatus;
+import com.kshrd.pp_group_02_spring_mini_project.constants.HabitLogStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

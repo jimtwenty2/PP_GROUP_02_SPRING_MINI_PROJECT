@@ -25,7 +25,7 @@ public interface HabitLogRepository {
 
     @ResultMap("mapper")
     @Select("SELECT * FROM habit_logs where habit_lod_id = #{id}")
-    HabitLog getAttendeeByUserId(Integer id);
+    HabitLog getHabitLogByUserId(Integer id);
 
     @ResultMap("mapper")
     @Select("insert into  habit_logs (log_date, status, xp_earned, habit_id) values (#{logDate} , #{status}) , #{xpEarned} , #{habitId}")

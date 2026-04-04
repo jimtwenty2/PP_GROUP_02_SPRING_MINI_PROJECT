@@ -1,5 +1,6 @@
 package com.kshrd.pp_group_02_spring_mini_project.controller;
 
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.HabitLogRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.HabitLog;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitLogService;
@@ -30,6 +31,34 @@ public class HabitLogController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
-//    @GetMapping("/{id}")
-//    public ResponseEntity<ApiResponse<HabitLog>>
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<HabitLog>> getHabitLogById(@RequestParam Integer id){
+
+        HabitLog habitLogs = habitLogService.getHabitLogById(id) ;
+        ApiResponse<HabitLog> apiResponse = ApiResponse.<HabitLog>builder()
+                .success(true)
+                .timestamp(Instant.now())
+                .message("Retrieved attendee successfully")
+                .status(HttpStatus.OK)
+                .payload(habitLogs)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<HabitLog>> getHabitLogById(@RequestBody HabitLogRequest habitLogRequest){
+
+        HabitLog habitLogs = habitLogService.postHabitLog(habitLogRequest) ;
+        ApiResponse<HabitLog> apiResponse = ApiResponse.<HabitLog>builder()
+                .success(true)
+                .timestamp(Instant.now())
+                .message("Retrieved attendee successfully")
+                .status(HttpStatus.OK)
+                .payload(habitLogs)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+
 }
