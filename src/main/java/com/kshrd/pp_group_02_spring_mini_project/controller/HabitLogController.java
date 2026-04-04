@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/habit-logs")
 
 public class HabitLogController {
-    @GetMapping
-    @Operation(summary = "Create a new habit log")
-    public ResponseEntity<ApiResponse<HabitLogController>> getAllHabitLog(){
-
-        return ResponseEntity<>;
-    }
+//    @GetMapping
+//    @Operation(summary = "Create a new habit log")
+//    public ResponseEntity<ApiResponse<HabitLogController>> getAllHabitLog(){
+//
+//        return ResponseEntity<>;
+//    }
 }
