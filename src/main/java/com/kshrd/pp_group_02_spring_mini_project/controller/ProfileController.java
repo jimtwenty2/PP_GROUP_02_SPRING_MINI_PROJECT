@@ -15,14 +15,15 @@ import java.time.LocalDateTime;
 @RequestMapping("api/v1/profile")
 @RequiredArgsConstructor
 public class ProfileController {
-    ProfileService userProfile;
+    private final ProfileService profileService;
     @GetMapping("/profile")
     public ApiResponseProfile getProfile(){
+        Profile profile = profileService.getCurrentUserProfile();
         ApiResponseProfile response = ApiResponseProfile.builder()
                 .success(true)
                 .message("User profile fetched successfully!")
                 .status("OK")
-                .payload(userProfile.getCurrentUserProfile())
+                .payload(profile)
                 .timestamp(LocalDateTime.now())
                 .build();
         return response;
