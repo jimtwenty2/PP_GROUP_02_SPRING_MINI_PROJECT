@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ProfileRepository {
 
     @Select("""
-        SELECT * FROM app_users 
-        WHERE username = #{userName} 
+        SELECT * FROM app_users
+        WHERE username = #{userName}
         """)
     Profile findUserByUserName(@Param("userName")String userName);
 
