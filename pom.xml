@@ -81,6 +81,7 @@
             <version>2.25.27</version>
         </dependency>
         <!-- Source: https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>

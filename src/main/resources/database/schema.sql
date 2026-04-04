@@ -23,7 +23,7 @@ CREATE TABLE app_users
 DROP TABLE IF EXISTS achievements;
 CREATE TABLE achievements
 (
-    achievement_id SERIAL PRIMARY KEY,
+    achievement_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title          VARCHAR(100) NOT NULL,
     description    TEXT,
     badge          VARCHAR(255) NOT NULL,
@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS app_user_achievements;
 CREATE TABLE app_user_achievements
 (
     app_user_id    UUID,
-    achievement_id INT,
+    achievement_id UUID,
     FOREIGN KEY (app_user_id)
         REFERENCES app_users (app_user_id)
         ON DELETE CASCADE
@@ -49,7 +49,7 @@ CREATE TABLE app_user_achievements
 DROP TABLE IF EXISTS habits;
 CREATE TABLE habits
 (
-    habit_id    SERIAL PRIMARY KEY,
+    habit_id    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title       VARCHAR(100)    NOT NULL,
     description VARCHAR(250),
     frequency   habit_frequency NOT NULL,
@@ -64,11 +64,11 @@ CREATE TABLE habits
 DROP TABLE IF EXISTS habit_logs;
 CREATE TABLE habit_logs
 (
-    habit_log_id SERIAL PRIMARY KEY,
+    habit_log_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     log_date     DATE             NOT NULL,
     status       habit_log_status NOT NULL,
     xp_earned    INT              NOT NULL,
-    habit_id     INT,
+    habit_id     UUID,
     FOREIGN KEY (habit_id) REFERENCES habits (habit_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
