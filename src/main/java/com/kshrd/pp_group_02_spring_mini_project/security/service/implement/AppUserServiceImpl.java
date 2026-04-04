@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AppUserServiceImpl implements AppUserService {
     private final AppUserRepository appUserRepository;
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = appUserRepository.findUserByUsername(username);
-        return appUser;
+    public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
+        return appUserRepository.findUserByIdentifier(identifier);
     }
 }

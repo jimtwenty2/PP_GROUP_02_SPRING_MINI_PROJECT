@@ -1,21 +1,27 @@
 package com.kshrd.pp_group_02_spring_mini_project.model.entity;
 
-import org.jspecify.annotations.Nullable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AppUser implements UserDetails {
+    private UUID appUserId;
     private String username;
     private String email;
     private String password;
     private Integer level;
     private Integer xp;
-    private String profile_image;
-    private Timestamp created_at;
+    private String profileImage;
+    private Timestamp createdAt;
     private boolean isVerified;
 
     @Override
@@ -24,13 +30,13 @@ public class AppUser implements UserDetails {
     }
 
     @Override
-    public @Nullable String getPassword() {
+    public String getPassword() {
         return this.password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.username;
     }
 
     @Override
@@ -50,6 +56,6 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+      return true;
     }
 }
