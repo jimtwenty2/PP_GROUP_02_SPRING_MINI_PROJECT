@@ -1,5 +1,7 @@
-DROP DATABASE IF EXISTS spring_mini_project_db;
-CREATE DATABASE spring_mini_project_db;
+DROP
+DATABASE IF EXISTS spring_mini_project_db;
+CREATE
+DATABASE spring_mini_project_db;
 
 CREATE TYPE habit_frequency AS ENUM ('DAILY', 'WEEKLY', 'MONTHLY');
 CREATE TYPE habit_log_status AS ENUM ('COMPLETED', 'MISSED');
@@ -32,7 +34,7 @@ DROP TABLE IF EXISTS app_user_achievements;
 CREATE TABLE app_user_achievements
 (
     app_user_id    UUID,
-    achievement_id INT ,
+    achievement_id INT,
     FOREIGN KEY (app_user_id)
         REFERENCES app_users (app_user_id)
         ON DELETE CASCADE
@@ -40,20 +42,21 @@ CREATE TABLE app_user_achievements
     FOREIGN KEY (achievement_id)
         REFERENCES achievements (achievement_id)
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    PRIMARY KEY (app_user_id, achievement_id)
 );
 
 DROP TABLE IF EXISTS habits;
 CREATE TABLE habits
 (
     habit_id    SERIAL PRIMARY KEY,
-    title       VARCHAR(100) NOT NULL,
+    title       VARCHAR(100)    NOT NULL,
     description VARCHAR(250),
-    frequency   habit_frequency NOT NULL ,
-    is_active   BOOLEAN      NOT NULL,
+    frequency   habit_frequency NOT NULL,
+    is_active   BOOLEAN         NOT NULL,
     app_user_id UUID,
-    created_at  TIMESTAMP    NOT NULL,
-    FOREIGN KEY (app_user_id) REFERENCES app_users(app_user_id)
+    created_at  TIMESTAMP       NOT NULL,
+    FOREIGN KEY (app_user_id) REFERENCES app_users (app_user_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -62,9 +65,9 @@ DROP TABLE IF EXISTS habit_logs;
 CREATE TABLE habit_logs
 (
     habit_log_id SERIAL PRIMARY KEY,
-    log_date     DATE    NOT NULL,
+    log_date     DATE             NOT NULL,
     status       habit_log_status NOT NULL,
-    xp_earned    INT     NOT NULL,
+    xp_earned    INT              NOT NULL,
     habit_id     INT,
     FOREIGN KEY (habit_id) REFERENCES habits (habit_id)
         ON DELETE CASCADE
