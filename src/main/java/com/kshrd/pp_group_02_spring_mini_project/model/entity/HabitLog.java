@@ -5,17 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDate;
-
+import java.util.UUID;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class HabitLog {
-    private Integer habitLogId ;
-    private LocalDate logDate;
+    private UUID habitLogId ;
+    private Instant logDate ;
     private HabitLogStatus status ;
-    private Integer  xpEarned ;
+    private Integer  xpEarned;
     private Integer habitId ;
 }

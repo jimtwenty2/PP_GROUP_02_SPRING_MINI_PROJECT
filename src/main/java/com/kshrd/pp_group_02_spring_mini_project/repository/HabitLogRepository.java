@@ -16,30 +16,17 @@ public interface HabitLogRepository {
             @Result(property = "xpEarned", column = "xp_earned"),
             @Result(property = "habitId", column = "habit_id")
     })
-    @Select("SELECT * FROM habit_logs LIMIT #{size} OFFSET ${(page - 1) * size}")
-    List<HabitLog> getAllHabitLog(int page , int size) ;
+
+    @Select("SELECT * FROM habit_logs WHERE habit_id = #{habitId} LIMIT #{size} OFFSET ${(page - 1) * size} ")
+    List<HabitLog> getAllHabitLogByHabitId(Integer habitId , int page , int size);
 
     @ResultMap("mapper")
-    @Select("SELECT * FROM habit_logs")
-    List<HabitLog> getAllHabitLogItem();
-
-    @ResultMap("mapper")
-    @Select("SELECT * FROM habit_logs where habit_lod_id = #{id}")
-    HabitLog getHabitLogByUserId(Integer id);
-
-    @ResultMap("mapper")
-    @Select("insert into  habit_logs (log_date, status, xp_earned, habit_id) values (#{logDate} , #{status}) , #{xpEarned} , #{habitId}")
-    HabitLog createHabitLog(HabitLogRequest habitLogRequest);
-
-    @ResultMap("mapper")
-    @Select("update habit_logs set log_date = #{req.LogDate} , status = #{req.status} , xp_earned = #{req.xpEarned} , habit_log_id = #{req.habitId}  where habit_log_id = #{id} RETURNING *")
-    HabitLog updateHabitLog(Long id , @Param("req") HabitLogRequest habitLogRequest);
+    @Select("insert into  habit_logs (log_date, status, xp_earned, habit_id) values ( #{logDate} , #{status}::habit_log_status , #{xpEarned} , #{habitId} )")
+    HabitLog createHabitLog(HabitLog habitLog);
 
 
-    @ResultMap("mapper")
-    @Select("delete from habit_logs where habit_log_id = #{id}")
-    HabitLog deleteHabitlog(Long id);
+    @Result(property = "habitId", column = "habit_id")
+    @Select("SELECT habit_id FROM habit_logs")
+    List<Integer> getAllHabitIdsInLogs();
 
-//    @Select("SELECT * FROM habit_logs where habit_log_id = #{id}")
-//    boolean existsById(Long id);
 }
