@@ -1,10 +1,12 @@
 package com.kshrd.pp_group_02_spring_mini_project.exception;
 
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
@@ -35,5 +37,16 @@ public class GlobalException {
                 .errors(ex.getErrors())
                 .build();;
         return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<String>> handleJsonError(HttpMessageNotReadableException ex) {
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .success(false)
+                .message("Invalid input format: Check your Enum values (e.g., status should be COMPLETED)")
+                .status(HttpStatus.BAD_REQUEST)
+                .timestamp(Instant.now())
+                .build();
+        return ResponseEntity.badRequest().body(response);
     }
 }

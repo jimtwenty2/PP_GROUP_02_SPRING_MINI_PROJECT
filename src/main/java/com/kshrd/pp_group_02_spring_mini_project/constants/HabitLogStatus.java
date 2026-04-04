@@ -7,8 +7,12 @@ public enum HabitLogStatus {
         MISSED,
         SKIPPED;
 
-        @JsonCreator
-        public static HabitLogStatus from(String value) {
+    @JsonCreator
+    public static HabitLogStatus fromValue(String value) {
+        try {
             return HabitLogStatus.valueOf(value.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null; // Return null so it passes deserialization but fails your validation
         }
+    }
     }
