@@ -1,0 +1,20 @@
+package com.kshrd.pp_group_02_spring_mini_project.model.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class HabitLog {
+    private Integer habitLogId ;
+    private LocalDate logDate;
+    private String status ;
+    private Integer  xpEarns ;
+    private Integer habit_id ;
+}
