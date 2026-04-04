@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 
@@ -22,6 +23,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
     private final AppUserService appUserService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<TokenResponse>> login(@RequestBody LoginRequest loginRequest) {
@@ -52,12 +54,19 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<AppUserResponse>> register(@RequestBody RegisterRequest appUserRequest){
-        appUserRequest
-                .builder()
-                .
-                .build();
+        String rawPwd = appUserRequest.getPassword();
+        appUserRequest.setPassword(passwordEncoder.encode(rawPwd));
         AppUserResponse appUserResponse = appUserService.register(appUserRequest);
-        return null;
+        ApiResponse<AppUserResponse> appUserResponseApiResponse = ApiResponse
+                .<AppUserResponse>builder()
+                .success(true)
+                .status(HttpStatus.CREATED)
+                .message("Register new user successfully")
+                .payload(appUserResponse)
+                .timestamp(Instant.now())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(appUserResponseApiResponse);
     }
 
 }

@@ -22,9 +22,10 @@ public interface AppUserRepository {
     AppUser findByUsernameOrEmail(String identifier);
 
     @Select("""
-        INSERT INTO app_users (username, email, password, level, xp, profile_image, is_verified, created_at) 
-        VALUES (#{req.username}, #{req.email}, #{req.password}, #{req.level}, #{req.xp}, #{req.profileImage}, #{req.isVerified}, #{req.createdAt})
+        INSERT INTO app_users (username, email, password ,profile_image) 
+        VALUES (#{req.username}, #{req.email}, #{req.password},#{req.profileImageUrl})
         RETURNING *;
     """)
+    @ResultMap("appUserMapper")
     AppUser saveAppUser(@Param("req") RegisterRequest appUserRequest);
 }
