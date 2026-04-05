@@ -49,4 +49,5 @@ public interface HabitLogRepository {
     @Result(property = "habitId", column = "habit_id", jdbcType = JdbcType.OTHER, typeHandler = UuidTypeHandler.class)
     @Select("SELECT habit_id FROM habit_logs")
     List<UUID> getAllHabitIdsInLogs();
+
 }
