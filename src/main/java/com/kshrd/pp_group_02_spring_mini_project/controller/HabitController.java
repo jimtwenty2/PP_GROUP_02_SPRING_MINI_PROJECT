@@ -39,27 +39,28 @@ public class HabitController {
 
     @GetMapping("/{habit-id}")
     @Operation(summary = "Get habit by ID")
-    public ResponseEntity<ApiResponse<Habit>> getUserById(@PathVariable("habit-id") UUID habitId) {
+    public ResponseEntity<ApiResponse<Habit>> getHabitById(@PathVariable("habit-id") UUID habitId) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Habit>builder()
                         .success(true)
-                        .timestamp(Instant.now())
-                        .message("Get habit with ID " + habitId + " successfully")
+                        .message("Fetched all habits successfully!")
+                        .status(HttpStatus.OK)
                         .payload(habitService.getHabitById(habitId))
+                        .timestamp(Instant.now())
                         .build()
         );
     }
 
-
     @DeleteMapping("/{habit-id}")
     @Operation(summary = "Delete habit by ID")
-    public ResponseEntity<ApiResponse<Habit>> deleteUserById(@PathVariable("habit-id") UUID habitId) {
+    public ResponseEntity<ApiResponse<Habit>> deleteHabitById(@PathVariable("habit-id") UUID habitId) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Habit>builder()
                         .success(true)
-                        .timestamp(Instant.now())
-                        .message("Delete habit with ID " + habitId + " successfully")
+                        .message("Habit deleted successfully!")
+                        .status(HttpStatus.OK)
                         .payload(habitService.deleteHabitById(habitId))
+                        .timestamp(Instant.now())
                         .build()
         );
     }

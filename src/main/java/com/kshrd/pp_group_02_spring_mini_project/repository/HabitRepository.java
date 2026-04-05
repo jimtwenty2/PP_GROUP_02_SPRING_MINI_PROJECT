@@ -14,9 +14,9 @@ public interface HabitRepository {
     @Results(id = "habitMapper", value = {
             @Result(property = "habitId", column = "habit_id", typeHandler = UuidTypeHandler.class, jdbcType = JdbcType.OTHER),
             @Result(property = "isActive", column = "is_active"),
-//            @Result(property = "appUser", column = "app_user_id",
-//                    one = @One(select = "com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository.appUserId")
-//            ),
+            @Result(property = "appUser", column = "app_user_id",
+                    one = @One(select = "com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository.findByUsernameOrEmail")
+            ),
             @Result(property = "creatAt", column = "create_at")
 
     })
@@ -27,16 +27,16 @@ public interface HabitRepository {
     """)
     List<Habit> findAllHabits(Integer page, Integer size);
 
-    @Select("""
-        DELETE FROM habits
-        WHERE habit_id = #{habitId}
-    """)
-    Habit deleteHabitById(UUID habitId);
-
     @ResultMap("habitMapper")
     @Select("""
         SELECT * FROM habits
         WHERE habit_id = #{habitId}
     """)
     Habit findHabitById(UUID habitId);
+
+    @Select("""
+        DELETE FROM habits
+        WHERE habit_id = #{habitId}
+    """)
+    Habit deleteHabitById(UUID habitId);
 }

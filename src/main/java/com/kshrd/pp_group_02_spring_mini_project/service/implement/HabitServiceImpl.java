@@ -1,5 +1,6 @@
 package com.kshrd.pp_group_02_spring_mini_project.service.implement;
 
+import com.kshrd.pp_group_02_spring_mini_project.exception.NotFoundExceptionHandler;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
 import com.kshrd.pp_group_02_spring_mini_project.repository.HabitRepository;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitService;
@@ -20,12 +21,22 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public Habit deleteHabitById(UUID habitId) {
-        return habitRepository.deleteHabitById(habitId);
+    public Habit getHabitById(UUID habitId) {
+        Habit habit = habitRepository.findHabitById(habitId);
+        if(habit == null){
+            throw new NotFoundExceptionHandler("Habit with ID " + habitId + " not found");
+        }
+        return habit;
     }
 
     @Override
-    public Habit getHabitById(UUID habitId) {
-        return habitRepository.findHabitById(habitId);
+    public Habit deleteHabitById(UUID habitId) {
+        Habit habit = habitRepository.deleteHabitById(habitId);
+        if(habit == null){
+            throw new NotFoundExceptionHandler("Habit with ID " + habitId + " not found");
+        }
+        return habit;
     }
+
+
 }

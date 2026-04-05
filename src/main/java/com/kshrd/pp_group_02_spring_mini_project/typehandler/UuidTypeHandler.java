@@ -25,7 +25,6 @@ public class UuidTypeHandler extends BaseTypeHandler<UUID> {
 //    }
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, UUID parameter, JdbcType jdbcType) throws SQLException {
-        // Use java.sql.Types.OTHER directly instead of jdbcType.TYPE_CODE
         ps.setObject(i, parameter, java.sql.Types.OTHER);
     }
 
@@ -43,5 +42,7 @@ public class UuidTypeHandler extends BaseTypeHandler<UUID> {
     public UUID getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return cs.getObject(columnIndex, UUID.class);
     }
+
 }
+
 
