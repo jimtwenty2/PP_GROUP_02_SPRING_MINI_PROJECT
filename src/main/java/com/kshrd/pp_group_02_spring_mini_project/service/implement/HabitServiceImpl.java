@@ -16,8 +16,6 @@ public class HabitServiceImpl implements HabitService {
     @Override
     public Habit createNewHabit(HabitRequest request) {
 
-        System.out.println(request);
-
         return habitRepository.saveHabit(request);
 
     }
