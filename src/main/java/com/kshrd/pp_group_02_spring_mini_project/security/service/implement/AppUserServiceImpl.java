@@ -6,6 +6,7 @@ import com.kshrd.pp_group_02_spring_mini_project.mapper.AppUserMapper;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.RegisterRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.AppUserResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.AppUser;
+import com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository;
 import com.kshrd.pp_group_02_spring_mini_project.security.service.AppUserService;
 import com.kshrd.pp_group_02_spring_mini_project.service.EmailService;
 import com.kshrd.pp_group_02_spring_mini_project.service.OtpService;

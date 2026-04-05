@@ -1,10 +1,12 @@
 package com.kshrd.pp_group_02_spring_mini_project.controller;
 
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.HabitRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -62,6 +64,40 @@ public class HabitController {
                         .message("Habit deleted successfully!")
                         .status(HttpStatus.OK)
                         .payload(habitService.deleteHabitById(habitId))
+                        .timestamp(Instant.now())
+                        .build()
+        );
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new habit")
+    public ResponseEntity<ApiResponse<Habit>> createHabit(
+            @Valid @RequestBody HabitRequest habitRequest,
+            @RequestParam UUID userId
+    ){
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                ApiResponse.<Habit>builder()
+                        .success(true)
+                        .message("Habit created successfully!")
+                        .status(HttpStatus.CREATED)
+                        .payload(habitService.createHabit(habitRequest, userId))
+                        .timestamp(Instant.now())
+                        .build()
+        );
+    }
+
+    @PutMapping("/{habit-id}")
+    @Operation(summary = "Update habit by ID")
+    public ResponseEntity<ApiResponse<Habit>> updateHabit(
+            @PathVariable("habit-id") UUID habitId,
+            @RequestBody Habit habit
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiResponse.<Habit>builder()
+                        .success(true)
+                        .message("Habit created successfully!")
+                        .status(HttpStatus.OK)
+                        .payload(habitService.updateHabit(habit, habitId))
                         .timestamp(Instant.now())
                         .build()
         );

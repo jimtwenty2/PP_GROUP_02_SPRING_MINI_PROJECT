@@ -1,6 +1,8 @@
 package com.kshrd.pp_group_02_spring_mini_project.service;
 
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.HabitRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
+import jakarta.validation.Valid;
 
 
 import java.util.List;
@@ -12,4 +14,8 @@ public interface HabitService {
     Habit getHabitById(UUID habitId);
 
     Habit deleteHabitById(UUID habitId);
+
+    Habit createHabit(@Valid HabitRequest habitRequest, UUID userId);
+
+    Habit updateHabit(Habit habit, UUID habitId);
 }
