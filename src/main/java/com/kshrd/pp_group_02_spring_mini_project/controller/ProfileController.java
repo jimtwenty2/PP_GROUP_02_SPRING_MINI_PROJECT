@@ -4,6 +4,7 @@ import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.ProfileUpdate
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.AppUserResponse;
 import com.kshrd.pp_group_02_spring_mini_project.service.ProfileService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 
 @RestController
-@RequestMapping("api/v1/profile")
+@RequestMapping("api/v1/profiles")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class ProfileController {
     private final ProfileService profileService;
 
