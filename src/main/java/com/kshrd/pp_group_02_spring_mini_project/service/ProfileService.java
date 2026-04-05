@@ -1,13 +1,11 @@
 package com.kshrd.pp_group_02_spring_mini_project.service;
 
-import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.ProfileRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.ProfileUpdateRequest;
-import com.kshrd.pp_group_02_spring_mini_project.model.entity.Profile;
-import org.apache.ibatis.annotations.Param;
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.AppUserResponse;
 
 public interface ProfileService {
-    Profile getCurrentUserProfile();
+    AppUserResponse getCurrentUserProfile();
 
-    Profile updateUserProfile(ProfileUpdateRequest profileUpdateRequest);
+    AppUserResponse updateUserProfile(ProfileUpdateRequest profileUpdateRequest);
     void deleteCurrentUser();
 }

@@ -1,17 +1,14 @@
 package com.kshrd.pp_group_02_spring_mini_project.controller;
 
-import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.ProfileRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.ProfileUpdateRequest;
-import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponseProfile;
-import com.kshrd.pp_group_02_spring_mini_project.model.entity.Profile;
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.AppUserResponse;
 import com.kshrd.pp_group_02_spring_mini_project.service.ProfileService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @RestController
 @RequestMapping("api/v1/profile")
@@ -19,39 +16,38 @@ import java.time.LocalDateTime;
 public class ProfileController {
     private final ProfileService profileService;
 
-    @GetMapping("/profile")
-    public ApiResponseProfile getProfile(){
-        Profile profile = profileService.getCurrentUserProfile();
-        ApiResponseProfile response = ApiResponseProfile.builder()
+    @GetMapping
+    public ApiResponse<AppUserResponse> getProfile(){
+        AppUserResponse profile = profileService.getCurrentUserProfile();
+        return ApiResponse.<AppUserResponse>builder()
                 .success(true)
                 .message("User profile fetched successfully!")
-                .status("OK")
+                .status(HttpStatus.OK)
                 .payload(profile)
-                .timestamp(LocalDateTime.now())
+                .timestamp(Instant.now())
                 .build();
-        return response;
     }
 
     @PutMapping("/update")
-    public ApiResponseProfile updateProfile(@RequestBody ProfileUpdateRequest profileUpdateRequest){
-        Profile updatedProfile = profileService.updateUserProfile(profileUpdateRequest);
-        return ApiResponseProfile.builder()
+    public ApiResponse<AppUserResponse> updateProfile(@RequestBody ProfileUpdateRequest profileUpdateRequest){
+        AppUserResponse updatedProfile = profileService.updateUserProfile(profileUpdateRequest);
+        return ApiResponse.<AppUserResponse>builder()
                 .success(true)
                 .message("User profile updated successfully")
-                .status("OK")
+                .status(HttpStatus.OK)
                 .payload(updatedProfile)
-                .timestamp(LocalDateTime.now())
+                .timestamp(Instant.now())
                 .build();
     }
 
     @DeleteMapping("/delete")
-    public ApiResponseProfile deleteProfile(){
+    public ApiResponse<Void> deleteProfile(){
         profileService.deleteCurrentUser();
-        return ApiResponseProfile.builder()
+        return ApiResponse.<Void>builder()
                 .success(true)
                 .message("User profile deleted successfully!")
-                .status("OK")
-                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.OK)
+                .timestamp(Instant.now())
                 .build();
     }
 }
