@@ -8,6 +8,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.UUID;
 
 @Mapper
@@ -18,7 +19,11 @@ public interface HabitLogRepository {
             @Result(property = "logDate", column = "log_date"),
             @Result(property = "status", column = "status"),
             @Result(property = "xpEarned", column = "xp_earned"),
-            @Result(property = "habitId", column = "habit_id", typeHandler = UuidTypeHandler.class)
+            @Result(property = "habitId", column = "habit_id", typeHandler = UuidTypeHandler.class) ,
+            @Result(property = "habitList" , column = "habit_id",
+                    one = @One(select = ("com.kshrd.pp_group_02_spring_mini_project.repository.HabitRepository.findHabitById"))
+            )
+
     })
     @Select("""
     SELECT * FROM habit_logs
@@ -49,4 +54,5 @@ public interface HabitLogRepository {
     @Result(property = "habitId", column = "habit_id", jdbcType = JdbcType.OTHER, typeHandler = UuidTypeHandler.class)
     @Select("SELECT habit_id FROM habit_logs")
     List<UUID> getAllHabitIdsInLogs();
+
 }

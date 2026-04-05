@@ -35,7 +35,8 @@ public class SecurityConfig {
                                 "/api/v1/files/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**" ,
+                                "/api/v1/habit-logs/**"
                         ).permitAll()
                         .requestMatchers("/api/v1/test", "/api/v1/test/**").authenticated()
                         .requestMatchers("/api/v1/achievements", "/api/v1/achievements/**").authenticated()
