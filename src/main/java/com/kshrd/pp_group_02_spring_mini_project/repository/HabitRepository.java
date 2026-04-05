@@ -1,5 +1,6 @@
 package com.kshrd.pp_group_02_spring_mini_project.repository;
 
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.HabitRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
 import com.kshrd.pp_group_02_spring_mini_project.typehandler.UuidTypeHandler;
 import org.apache.ibatis.annotations.*;
@@ -37,6 +38,29 @@ public interface HabitRepository {
     @Select("""
         DELETE FROM habits
         WHERE habit_id = #{habitId}
+        RETURNING *
     """)
     Habit deleteHabitById(UUID habitId);
+
+    @Select("""
+        INSERT INTO habits (
+                    title,
+                    description,
+                    frequency,
+                    is_active,
+                    app_user_id,
+                    created_at
+                )
+                VALUES
+                (
+                    #{req.title},
+                    #{req.description},
+                    #{req.frequency},
+                    #{req.isActive},
+                    #{req.userId},
+                    #{req.createdAt}
+                )
+        RETURNING *
+    """)
+    Habit saveHabit(@Param("req") Habit habit, UUID userId);
 }

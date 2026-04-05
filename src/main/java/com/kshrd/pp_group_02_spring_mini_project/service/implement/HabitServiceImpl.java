@@ -1,12 +1,15 @@
 package com.kshrd.pp_group_02_spring_mini_project.service.implement;
 
 import com.kshrd.pp_group_02_spring_mini_project.exception.NotFoundExceptionHandler;
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.HabitRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
 import com.kshrd.pp_group_02_spring_mini_project.repository.HabitRepository;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitService;
+import com.kshrd.pp_group_02_spring_mini_project.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HabitServiceImpl implements HabitService {
     private final HabitRepository habitRepository;
+    private final SecurityUtils securityUtils;
 
     @Override
     public List<Habit> getAllHabits(Integer page, Integer size) {
@@ -36,6 +40,18 @@ public class HabitServiceImpl implements HabitService {
             throw new NotFoundExceptionHandler("Habit with ID " + habitId + " not found");
         }
         return habit;
+    }
+
+    @Override
+    public Habit createHabit(HabitRequest habitRequest) {
+        UUID userId = securityUtils.getCurrentUser().getAppUserId();
+        Habit habit = new Habit();
+        habit.setTitle(habitRequest.getTitle());
+        habit.setDescription(habitRequest.getDescription());
+        habit.setFrequency(habitRequest.getFrequency());
+        habit.setActive(true);
+        habit.setCreatedAt(LocalDateTime.now());
+        return habitRepository.saveHabit(habit,userId);
     }
 
 
