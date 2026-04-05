@@ -1,10 +1,15 @@
 package com.kshrd.pp_group_02_spring_mini_project.repository;
 
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.RegisterRequest;
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.AppUserResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.AppUser;
 import com.kshrd.pp_group_02_spring_mini_project.typehandler.UuidTypeHandler;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
+
+import java.util.UUID;
 
 @Mapper
 public interface AppUserRepository {
@@ -17,8 +22,8 @@ public interface AppUserRepository {
             @Result(property = "createdAt", column = "created_at")
     })
     @Select("""
-        SELECT * FROM app_users WHERE email = #{identifier} OR username = #{identifier};
-    """)
+                SELECT * FROM app_users WHERE email = #{identifier} OR username = #{identifier};
+            """)
     AppUser findByUsernameOrEmail(String identifier);
 
     @Select("""
@@ -30,8 +35,8 @@ public interface AppUserRepository {
     AppUser saveAppUser(@Param("req") RegisterRequest appUserRequest);
 
     @Select("""
-        SELECT * FROM app_users WHERE email = #{email};
-    """)
+                SELECT * FROM app_users WHERE email = #{email};
+            """)
     @ResultMap("appUserMapper")
     AppUser findByEmail(String email);
 
@@ -39,14 +44,19 @@ public interface AppUserRepository {
     @ResultMap("appUserMapper")
     void updateUserIsVerified(AppUser user);
 
+    @Select("SELECT count(*) > 0 FROM app_users WHERE email = #{emalil};")
+    boolean findExistenceByEmail(String email);
 
-    @Update("UPDATE app_users SET " +
-            "xp = xp + 10, " +
-            "level = CASE " +
-            "   WHEN (xp + 10) >= 200 THEN 3 " +
-            "   WHEN (xp + 10) >= 100 THEN 2 " +
-            "   ELSE level " +
-            "END " +
-            "WHERE email = #{identifier} OR username = #{identifier}")
-    void updateXpUser(String identifier);
+    @Select("SELECT count(*) > 0 FROM app_users WHERE username = #{username};")
+    boolean findExistenceByUsername(String username);
+
+    @Select("SELECT is_verified FROM app_users WHERE username = #{identifier} OR email = #{identifier};")
+    boolean checkIsVerifiedByIdentifier(String identifier);
+
+    @Update("""
+            UPDATE app_users
+            SET xp = #{xpEarned}
+            WHERE app_user_id = #{userId, jdbcType=OTHER}
+            """)
+    void increaseXpToUser(UUID userId, Integer xpEarned);
 }
