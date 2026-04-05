@@ -71,4 +71,14 @@ public interface AppUserRepository {
             WHERE app_user_id = #{userId, jdbcType=OTHER}
             """)
     void increaseXpToUser(UUID userId, Integer xpEarned);
+
+    @Update("UPDATE app_users SET " +
+            "xp = xp + 10, " +
+            "level = CASE " +
+            "   WHEN (xp + 10) >= 200 THEN 3 " +
+            "   WHEN (xp + 10) >= 100 THEN 2 " +
+            "   ELSE level " +
+            "END " +
+            "WHERE email = #{identifier} OR username = #{identifier}")
+    void updateXpUser(String identifier);
 }

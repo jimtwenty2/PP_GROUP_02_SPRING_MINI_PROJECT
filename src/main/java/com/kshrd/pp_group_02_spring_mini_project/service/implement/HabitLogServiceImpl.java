@@ -45,9 +45,11 @@ public class HabitLogServiceImpl implements HabitLogService {
         if (habitLog.getStatus() != HabitLogStatus.COMPLETED) {
             throw new RuntimeException("Status must be COMPLETED to earn XP!");
         }
+        if(habitLog.getStatus()==HabitLogStatus.COMPLETED){
+            appUserRepository.updateXpUser(identifier);
+        }
 
-        System.out.println(identifier);
-       // appUserRepository.updateXpUser(identifier);
+
 
         return habitLogRepository.insertHabitLog(habitLog);
     }
