@@ -3,9 +3,13 @@ package com.kshrd.pp_group_02_spring_mini_project.service.implement;
 import com.kshrd.pp_group_02_spring_mini_project.constants.HabitLogStatus;
 import com.kshrd.pp_group_02_spring_mini_project.exception.NotFoundExceptionHandler;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.HabitLog;
+import com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository;
 import com.kshrd.pp_group_02_spring_mini_project.repository.HabitLogRepository;
+import com.kshrd.pp_group_02_spring_mini_project.repository.HabitRepository;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitLogService;
+import com.kshrd.pp_group_02_spring_mini_project.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,23 +20,12 @@ import java.util.UUID;
 public class HabitLogServiceImpl implements HabitLogService {
 
     private final HabitLogRepository habitLogRepository;
+    private final AppUserRepository appUserRepository;
+    private final SecurityUtils securityUtils;
 
 
     @Override
     public List<HabitLog> getAllHabitLog(UUID habitId, int page, int size) {
-
-
-        if(page <= 0 || size <= 0){
-            throw new IllegalArgumentException("page and size must be greater then 0");
-        }
-
-        if (page <= 0) {
-             throw new NotFoundExceptionHandler("Page number must be greater than 0");
-        }
-
-        if (size <= 0) {
-            throw  new NotFoundExceptionHandler( "Size number must be greater than 0");
-        }
        boolean exists = habitLogRepository.getAllHabitIdsInLogs().contains(habitId);
         if (!exists) {
             throw new NotFoundExceptionHandler("Habit with ID " + habitId + " does not exist.");
@@ -42,9 +35,26 @@ public class HabitLogServiceImpl implements HabitLogService {
 
     @Override
     public HabitLog postHabitLog(HabitLog habitLog) {
-            if (habitLog.getStatus() != HabitLogStatus.COMPLETED) {
-                throw new NotFoundExceptionHandler("Status must be (COMPLETED ,MISSED , SKIPPED ");
-            }
-            return habitLogRepository.insertHabitLog(habitLog);
+
+        UUID userId = securityUtils.getCurrentUser().getAppUserId();
+
+        UUID habitId =  habitLog.getHabitId();
+        boolean exists = habitLogRepository.getAllHabitIdsInLogs().contains(habitId);
+        if (!exists) {
+            throw new NotFoundExceptionHandler("Habit with ID " + habitId + " does not exist.");
         }
+        if (habitLog.getStatus() != HabitLogStatus.COMPLETED &&
+                habitLog.getStatus() != HabitLogStatus.MISSED &&
+                habitLog.getStatus() != HabitLogStatus.SKIPPED
+        ) {
+            throw new RuntimeException("Status must be COMPLETED to earn XP!");
+        }
+        if(habitLog.getStatus()==HabitLogStatus.COMPLETED){
+            appUserRepository.updateXpUser(userId);
+        }
+
+
+
+        return habitLogRepository.insertHabitLog(habitLog);
+    }
 }

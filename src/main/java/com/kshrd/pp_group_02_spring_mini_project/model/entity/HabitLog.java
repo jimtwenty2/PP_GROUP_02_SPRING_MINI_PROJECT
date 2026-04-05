@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -18,4 +19,5 @@ public class HabitLog {
     private HabitLogStatus status ;
     private Integer  xpEarned;
     private UUID habitId;
+    private Habit habit;
 }

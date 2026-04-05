@@ -65,13 +65,13 @@ public class AppUserServiceImpl implements AppUserService {
         }
     }
     @Override
-    public void resendOtp(String email) {
+    public void resendOtp(String email) throws BadRequestException {
         if (!appUserRepository.findExistenceByEmail(email)) {
             throw new NotFoundExceptionHandler("The email address provided is not registered. Please check and try again.");
         }
         AppUser user = appUserRepository.findByEmail(email);
         if (user.isVerified()) {
-            throw new RuntimeException("User with email " + email + " is already verified");
+            throw new BadRequestException("User with email " + email + " is already verified");
         }
         String newOtp = otpService.resendOtp(email);
         emailService.sendOtpEmail(email, newOtp,user.getUsername());
