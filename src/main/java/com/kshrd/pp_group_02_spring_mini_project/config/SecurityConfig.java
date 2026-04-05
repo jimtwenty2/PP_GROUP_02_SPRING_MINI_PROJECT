@@ -32,12 +32,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v1/auths/**",
+                                "/api/v1/files/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**" ,
+                                "/api/v1/habit-logs/**"
                         ).permitAll()
                         .requestMatchers("/api/v1/test", "/api/v1/test/**").authenticated()
                         .requestMatchers("/api/v1/achievements", "/api/v1/achievements/**").authenticated()
+                        .requestMatchers("/api/v1/habits", "/api/v1/habits/**").authenticated()
+                        .requestMatchers("/api/v1/profiles", "/api/v1/profiles/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
