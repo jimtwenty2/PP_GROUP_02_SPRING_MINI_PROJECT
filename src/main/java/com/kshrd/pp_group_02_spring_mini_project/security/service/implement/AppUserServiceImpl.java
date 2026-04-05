@@ -37,7 +37,7 @@ public class AppUserServiceImpl implements AppUserService {
         AppUserResponse appUserResponse = appUserMapper.mapToAppUserResponse(appUser);
         String email = appUserResponse.getEmail();
         String otp = otpService.generateOtp(email);
-        emailService.sendOtpEmail(email,otp);
+        emailService.sendOtpEmail(email,otp,appUser.getUsername());
         return appUserResponse;
     }
 
@@ -66,7 +66,7 @@ public class AppUserServiceImpl implements AppUserService {
             throw new RuntimeException("User with email " + email + " is already verified");
         }
         String newOtp = otpService.resendOtp(email);
-        emailService.sendOtpEmail(email, newOtp);
+        emailService.sendOtpEmail(email, newOtp,user.getUsername());
         return newOtp;
     }
 }
