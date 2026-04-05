@@ -25,7 +25,7 @@ public class HabitServiceImpl implements HabitService {
     }
 
     @Override
-    public Habit getUserByUserId(UUID habitId) {
+    public Habit getHabitById(UUID habitId) {
         return habitRepository.findHabitById(habitId);
     }
 }

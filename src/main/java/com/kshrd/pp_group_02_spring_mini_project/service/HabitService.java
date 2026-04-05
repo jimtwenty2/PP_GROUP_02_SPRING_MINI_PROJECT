@@ -12,5 +12,5 @@ public interface HabitService {
 
     Habit deleteHabitById(@Positive(message = "Habit id cannot negative and zero number") UUID habitId);
 
-    Habit getUserByUserId(@Positive(message = "habit id cannot negative and zero number") UUID habitId);
+    Habit getHabitById( UUID habitId);
 }

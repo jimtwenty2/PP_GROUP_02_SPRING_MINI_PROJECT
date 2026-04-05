@@ -40,12 +40,12 @@ public class HabitController {
 
     @GetMapping("/{habit-id}")
     @Operation(summary = "Get habit by ID")
-    public ResponseEntity<ApiResponse<Habit>> getUserById(@PathVariable("habit-id") @Positive(message = "Habit id cannot negative and zero number") UUID habitId) {
+    public ResponseEntity<ApiResponse<Habit>> getUserById(@PathVariable("habit-id")  UUID habitId) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Habit>builder()
                         .timestamp(Instant.now())
                         .message("Get habit with ID " + habitId + " successfully")
-                        .payload(habitService.getUserByUserId(habitId))
+                        .payload(habitService.getHabitById(habitId))
                         .build()
         );
     }
