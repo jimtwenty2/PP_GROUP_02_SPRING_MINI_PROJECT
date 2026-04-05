@@ -3,6 +3,7 @@ package com.kshrd.pp_group_02_spring_mini_project.service.implement;
 import com.kshrd.pp_group_02_spring_mini_project.constants.HabitLogStatus;
 import com.kshrd.pp_group_02_spring_mini_project.exception.NotFoundExceptionHandler;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.HabitLog;
+import com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository;
 import com.kshrd.pp_group_02_spring_mini_project.repository.HabitLogRepository;
 import com.kshrd.pp_group_02_spring_mini_project.repository.HabitRepository;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitLogService;
@@ -36,6 +37,11 @@ public class HabitLogServiceImpl implements HabitLogService {
 
         String identifier = SecurityContextHolder.getContext().getAuthentication().getName();
 
+        UUID habitId =  habitLog.getHabitId();
+        boolean exists = habitLogRepository.getAllHabitIdsInLogs().contains(habitId);
+        if (!exists) {
+            throw new NotFoundExceptionHandler("Habit with ID " + habitId + " does not exist.");
+        }
         if (habitLog.getStatus() != HabitLogStatus.COMPLETED) {
             throw new RuntimeException("Status must be COMPLETED to earn XP!");
         }
