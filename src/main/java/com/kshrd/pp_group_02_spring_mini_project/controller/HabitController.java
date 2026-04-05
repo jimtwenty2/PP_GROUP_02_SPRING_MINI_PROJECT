@@ -1,10 +1,12 @@
 package com.kshrd.pp_group_02_spring_mini_project.controller;
 
+import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.HabitRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -67,6 +69,20 @@ public class HabitController {
                         .status(HttpStatus.OK)
                         .payload(habitService.deleteHabitById(habitId))
                         .timestamp(Instant.now())
+                        .build()
+        );
+    }
+    @Operation(summary = "Delete habit by ID",
+            description = "Deletes a habit by its ID."
+    )
+    @PostMapping
+    public ResponseEntity<ApiResponse<Habit>> createNewHabit(@RequestBody @Valid HabitRequest habitRequest){
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                ApiResponse.<Habit>builder()
+                        .success(true)
+                        .message("Create new habit successfully")
+                        .status(HttpStatus.CREATED)
+                        .payload(habitService.createHabit(habitRequest))
                         .build()
         );
     }
