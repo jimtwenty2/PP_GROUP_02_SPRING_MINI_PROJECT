@@ -1,9 +1,7 @@
 package com.kshrd.pp_group_02_spring_mini_project.service.implement;
 
-import com.kshrd.pp_group_02_spring_mini_project.exception.NotFoundExceptionHandler;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.ProfileUpdateRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.AppUserResponse;
-import com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository;
 import com.kshrd.pp_group_02_spring_mini_project.repository.ProfileRepository;
 import com.kshrd.pp_group_02_spring_mini_project.service.ProfileService;
 import com.kshrd.pp_group_02_spring_mini_project.utils.SecurityUtils;
