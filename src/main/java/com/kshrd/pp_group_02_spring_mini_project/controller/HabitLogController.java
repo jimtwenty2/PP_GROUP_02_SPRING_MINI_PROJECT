@@ -5,7 +5,6 @@ import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.HabitLog;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitLogService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,9 @@ import java.util.UUID;
 public class HabitLogController {
     private final HabitLogService habitLogService;
     @GetMapping("/{habit-id}")
-    @Operation(summary = "Create a new habit log by Habit Id")
-    public ResponseEntity<ApiResponse<List<HabitLog>>> getAllHabitLogHabitId(@PathVariable("habit-id") UUID habitId , @RequestParam(defaultValue = "1") @Positive(message = "size must be at least 1") int page  , @RequestParam(defaultValue = "10") @Positive(message = "size must be at least 1") int size ){
-
+    @Operation(summary = "Get all habit logs by Its ID",
+    description = "Fetches a paginated list of all habit logs for a specific habit by its ID.")
+    public ResponseEntity<ApiResponse<List<HabitLog>>> getAllHabitLogHabitId(@PathVariable("habit-id") UUID habitId , @RequestParam int page  , @RequestParam int size ){
         List<HabitLog> habitLogs = habitLogService.getAllHabitLog(habitId , page , size);
 
         ApiResponse<List<HabitLog>> apiResponse = ApiResponse.<List<HabitLog>>builder()
@@ -38,7 +37,8 @@ public class HabitLogController {
     }
 
 
-
+    @Operation(summary = "Create a new habit log by Habit Id",
+            description = "Creates a new log for a specific habit with the provided details.")
     @PostMapping
     public ResponseEntity<ApiResponse<HabitLog>> postHabitLog(@RequestBody HabitLogRequest habitLogRequest) {
 

@@ -8,6 +8,7 @@ import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.AppUserRespo
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.TokenResponse;
 import com.kshrd.pp_group_02_spring_mini_project.security.jwt.JwtUtils;
 import com.kshrd.pp_group_02_spring_mini_project.security.service.AppUserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
@@ -29,6 +30,10 @@ public class AuthController {
     private final AppUserService appUserService;
     private final PasswordEncoder passwordEncoder;
 
+    @Operation(
+            summary = "User login",
+            description = "Authenticates the user and provides an authentication token."
+    )
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<TokenResponse>> login(@RequestBody LoginRequest loginRequest) {
         try {
@@ -61,6 +66,10 @@ public class AuthController {
         }
     }
 
+    @Operation(
+            summary = "Register a new User",
+            description = "Registers a new user and returns the user details upon successful registration."
+    )
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<AppUserResponse>> register(@RequestBody @Valid RegisterRequest appUserRequest){
 
@@ -78,6 +87,10 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(appUserResponseApiResponse);
     }
 
+    @Operation(
+            summary = "Verify the Email with OTP",
+            description = "Verifies the user's email address using the provided OTP."
+    )
     @PostMapping("/verify-otp")
     public ResponseEntity<ApiVoidResponse> verifyOtp(@RequestParam String email, @RequestParam String otp) throws BadRequestException {
         appUserService.verifyOtp(email, otp);
@@ -88,8 +101,12 @@ public class AuthController {
 
     }
 
+    @Operation(
+            summary = "Resend verification OTP to an Email",
+            description = "Sends a new OTP to the user's email for verification."
+    )
     @PostMapping("/resend")
-    public ResponseEntity<ApiVoidResponse> resendOtp(@RequestParam String email){
+    public ResponseEntity<ApiVoidResponse> resendOtp(@RequestParam String email) throws BadRequestException {
             appUserService.resendOtp(email);
             ApiVoidResponse apiVoidResponse = ApiVoidResponse.builder()
                     .success(true).message("Verification OTP successfully resent to your email.")

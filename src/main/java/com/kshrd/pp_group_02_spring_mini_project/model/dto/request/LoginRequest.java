@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
-    @Schema(defaultValue = "chhimpojim@gmail.com")
+    @Schema(defaultValue = "yourgmail@hrd.com")
     private String identifier;
-    @Schema(defaultValue = "jim123")
+    @Schema(defaultValue = "yourpassword")
     private String password;
 }
