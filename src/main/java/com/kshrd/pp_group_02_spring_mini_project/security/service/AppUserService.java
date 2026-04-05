@@ -10,7 +10,7 @@ public interface AppUserService extends UserDetailsService {
 
     void verifyOtp(String email, String inputOtp) throws BadRequestException;
 
-    void resendOtp(String email);
+    void resendOtp(String email) throws BadRequestException;
 
     boolean isVerifiedByIdentifier(String identifier);
 }
