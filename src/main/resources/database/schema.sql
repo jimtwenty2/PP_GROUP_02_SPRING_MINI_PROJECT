@@ -13,12 +13,13 @@ CREATE TABLE app_users
     username      VARCHAR(100)        NOT NULL,
     email         VARCHAR(100) UNIQUE NOT NULL,
     password      VARCHAR(255)        NOT NULL,
-    level         INT                 NOT NULL,
-    xp            INT                 NOT NULL,
+    level         INT                 DEFAULT 1,
+    xp            INT                 DEFAULT 0,
     profile_image VARCHAR(255),
-    is_verified   BOOLEAN             NOT NULL,
-    created_at    TIMESTAMP           NOT NULL
+    is_verified   BOOLEAN             DEFAULT false,
+    created_at    TIMESTAMP           DEFAULT now()
 );
+
 
 DROP TABLE IF EXISTS achievements;
 CREATE TABLE achievements
@@ -74,9 +75,5 @@ CREATE TABLE habit_logs
         ON UPDATE CASCADE
 );
 
-ALTER TABLE app_users
-    ALTER COLUMN level SET DEFAULT 1,
-    ALTER COLUMN xp SET DEFAULT 0,
-    ALTER COLUMN is_verified SET DEFAULT false,
-    ALTER COLUMN created_at SET DEFAULT now();
+
 
