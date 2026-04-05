@@ -79,3 +79,4 @@ ALTER TABLE app_users
     ALTER COLUMN xp SET DEFAULT 0,
     ALTER COLUMN is_verified SET DEFAULT false,
     ALTER COLUMN created_at SET DEFAULT now();
+
