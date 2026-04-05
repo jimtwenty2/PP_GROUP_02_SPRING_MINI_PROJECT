@@ -6,6 +6,7 @@ import com.kshrd.pp_group_02_spring_mini_project.mapper.AppUserMapper;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.RegisterRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.AppUserResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.AppUser;
+import com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository;
 import com.kshrd.pp_group_02_spring_mini_project.security.service.AppUserService;
 import com.kshrd.pp_group_02_spring_mini_project.service.EmailService;
 import com.kshrd.pp_group_02_spring_mini_project.service.OtpService;
@@ -64,13 +65,13 @@ public class AppUserServiceImpl implements AppUserService {
         }
     }
     @Override
-    public void resendOtp(String email) {
+    public void resendOtp(String email) throws BadRequestException {
         if (!appUserRepository.findExistenceByEmail(email)) {
             throw new NotFoundExceptionHandler("The email address provided is not registered. Please check and try again.");
         }
         AppUser user = appUserRepository.findByEmail(email);
         if (user.isVerified()) {
-            throw new RuntimeException("User with email " + email + " is already verified");
+            throw new BadRequestException("User with email " + email + " is already verified");
         }
         String newOtp = otpService.resendOtp(email);
         emailService.sendOtpEmail(email, newOtp,user.getUsername());

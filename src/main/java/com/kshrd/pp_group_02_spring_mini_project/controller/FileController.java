@@ -3,6 +3,7 @@ package com.kshrd.pp_group_02_spring_mini_project.controller;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.FileResponse;
 import com.kshrd.pp_group_02_spring_mini_project.service.FileService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,10 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class FileController {
     private final FileService fileService;
+    @Operation(
+            summary = "Upload file",
+            description = "Uploads a file and returns metadata about the uploaded file."
+    )
     @PostMapping(value = "upload-file",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<?>> uploadFile(@RequestParam MultipartFile file) throws IOException {
         String fileName = fileService.uploadFile(file);
@@ -43,6 +48,10 @@ public class FileController {
         );
     }
 
+    @Operation(
+            summary = "Preview A File",
+            description = "Fetches a file by its name and returns the file as a byte array (usually for image previews)."
+    )
     @GetMapping("/preview-file/{fileName}")
     public ResponseEntity<?> previewFileByFileName(@PathVariable String fileName) throws IOException {
         Resource resource = fileService.getFileByFileName(fileName);
