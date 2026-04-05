@@ -12,7 +12,7 @@ public enum HabitLogStatus {
         try {
             return HabitLogStatus.valueOf(value.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return null; // Return null so it passes deserialization but fails your validation
+            return null;
         }
     }
-    }
+}

@@ -42,9 +42,8 @@ public interface HabitLogRepository {
     VALUES (#{logDate}, #{status}::habit_log_status, #{xpEarned}, #{habitId, jdbcType=OTHER})
     RETURNING *
 """)
-    @ResultMap("mapper") // Use the @Results ID you defined earlier
+    @ResultMap("mapper")
     HabitLog insertHabitLog(HabitLog habitLog);
-
 
 
     @Result(property = "habitId", column = "habit_id", jdbcType = JdbcType.OTHER, typeHandler = UuidTypeHandler.class)

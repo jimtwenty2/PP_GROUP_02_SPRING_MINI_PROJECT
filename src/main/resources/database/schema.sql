@@ -80,17 +80,3 @@ ALTER TABLE app_users
     ALTER COLUMN is_verified SET DEFAULT false,
     ALTER COLUMN created_at SET DEFAULT now();
 
-
--- use with time Instant
-CREATE TABLE habit_logs
-(
-    habit_log_id SERIAL PRIMARY KEY,
-    -- Changed from DATE to TIMESTAMPTZ
-    log_date     TIMESTAMPTZ NOT NULL,
-    status       habit_log_status NOT NULL,
-    xp_earned    INT NOT NULL,
-    habit_id     INT,
-    FOREIGN KEY (habit_id) REFERENCES habits (habit_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);

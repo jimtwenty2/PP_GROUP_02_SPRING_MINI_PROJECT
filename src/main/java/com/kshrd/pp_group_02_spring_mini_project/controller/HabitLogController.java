@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,12 +37,13 @@ public class HabitLogController {
     }
 
 
+
     @PostMapping
     public ResponseEntity<ApiResponse<HabitLog>> postHabitLog(@RequestBody HabitLogRequest habitLogRequest) {
 
 
         HabitLog habitLog = new HabitLog();
-        habitLog.setLogDate(Instant.now());
+        habitLog.setLogDate(LocalDate.now());
         habitLog.setStatus(habitLogRequest.getStatus());
         habitLog.setXpEarned(0);
         habitLog.setHabitId(habitLogRequest.getHabitId());
