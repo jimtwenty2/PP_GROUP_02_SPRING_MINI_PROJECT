@@ -4,6 +4,7 @@ import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/habits")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class HabitController {
     private final HabitService habitService;
 
