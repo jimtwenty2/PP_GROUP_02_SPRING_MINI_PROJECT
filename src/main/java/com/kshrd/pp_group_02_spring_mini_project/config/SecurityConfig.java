@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**"
                         ).permitAll()
                         .requestMatchers("/api/v1/test", "/api/v1/test/**").authenticated()
+                        .requestMatchers("/api/v1/achievements", "/api/v1/achievements/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
