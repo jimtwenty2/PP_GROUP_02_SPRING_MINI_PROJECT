@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {
+    @NotBlank(message = "must not be blank")
     @Schema(defaultValue = "your username")
     private String username;
     @NotBlank(message = "must not be blank")

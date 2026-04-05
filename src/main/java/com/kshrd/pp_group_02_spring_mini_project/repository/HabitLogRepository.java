@@ -20,7 +20,7 @@ public interface HabitLogRepository {
             @Result(property = "status", column = "status"),
             @Result(property = "xpEarned", column = "xp_earned"),
             @Result(property = "habitId", column = "habit_id", typeHandler = UuidTypeHandler.class) ,
-            @Result(property = "habitList" , column = "habit_id",
+            @Result(property = "habit" , column = "habit_id",
                     one = @One(select = ("com.kshrd.pp_group_02_spring_mini_project.repository.HabitRepository.findHabitById"))
             )
 
@@ -29,11 +29,11 @@ public interface HabitLogRepository {
     SELECT * FROM habit_logs
     WHERE habit_id = #{habitId, jdbcType=OTHER, typeHandler=com.kshrd.pp_group_02_spring_mini_project.typehandler.UuidTypeHandler}
     LIMIT #{size}
-    OFFSET #{offset}
+    OFFSET (#{page} - 1) * #{size}
 """)
     List<HabitLog> getAllHabitLogByHabitId(
             @Param("habitId") UUID habitId,
-            @Param("offset") int offset,
+            @Param("page") int page,
             @Param("size") int size
     );
 

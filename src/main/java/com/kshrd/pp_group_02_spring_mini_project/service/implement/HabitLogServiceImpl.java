@@ -7,6 +7,7 @@ import com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository;
 import com.kshrd.pp_group_02_spring_mini_project.repository.HabitLogRepository;
 import com.kshrd.pp_group_02_spring_mini_project.repository.HabitRepository;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitLogService;
+import com.kshrd.pp_group_02_spring_mini_project.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ import java.util.UUID;
 public class HabitLogServiceImpl implements HabitLogService {
 
     private final HabitLogRepository habitLogRepository;
-    private final HabitRepository habitRepository;
     private final AppUserRepository appUserRepository;
+    private final SecurityUtils securityUtils;
 
 
     @Override
@@ -35,18 +36,21 @@ public class HabitLogServiceImpl implements HabitLogService {
     @Override
     public HabitLog postHabitLog(HabitLog habitLog) {
 
-        String identifier = SecurityContextHolder.getContext().getAuthentication().getName();
+        UUID userId = securityUtils.getCurrentUser().getAppUserId();
 
         UUID habitId =  habitLog.getHabitId();
         boolean exists = habitLogRepository.getAllHabitIdsInLogs().contains(habitId);
         if (!exists) {
             throw new NotFoundExceptionHandler("Habit with ID " + habitId + " does not exist.");
         }
-        if (habitLog.getStatus() != HabitLogStatus.COMPLETED) {
+        if (habitLog.getStatus() != HabitLogStatus.COMPLETED &&
+                habitLog.getStatus() != HabitLogStatus.MISSED &&
+                habitLog.getStatus() != HabitLogStatus.SKIPPED
+        ) {
             throw new RuntimeException("Status must be COMPLETED to earn XP!");
         }
         if(habitLog.getStatus()==HabitLogStatus.COMPLETED){
-            appUserRepository.updateXpUser(identifier);
+            appUserRepository.updateXpUser(userId);
         }
 
 

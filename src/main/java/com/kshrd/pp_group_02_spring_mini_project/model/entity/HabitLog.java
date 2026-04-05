@@ -19,5 +19,5 @@ public class HabitLog {
     private HabitLogStatus status ;
     private Integer  xpEarned;
     private UUID habitId;
-    private List<Habit> habitList;
+    private Habit habit;
 }
