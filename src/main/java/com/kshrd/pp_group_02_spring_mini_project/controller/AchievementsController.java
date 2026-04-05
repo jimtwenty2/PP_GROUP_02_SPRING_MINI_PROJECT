@@ -34,7 +34,6 @@ public class AchievementsController {
                         .build()
         );
     }
-
     @GetMapping("app-users")
     public ResponseEntity<ApiResponse<List<Achievement>>> getAchievementsByAppUsers(){
 
