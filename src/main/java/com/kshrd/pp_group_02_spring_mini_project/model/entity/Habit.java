@@ -11,6 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Habit {
+
     private UUID habitId;
     private String title;
     private String description;

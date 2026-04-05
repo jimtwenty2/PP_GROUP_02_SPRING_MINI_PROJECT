@@ -5,7 +5,6 @@ import com.kshrd.pp_group_02_spring_mini_project.model.entity.Habit;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/habit")
+@RequestMapping("api/v1/habits")
 @RequiredArgsConstructor
 public class HabitController {
     private final HabitService habitService;
@@ -40,9 +39,10 @@ public class HabitController {
 
     @GetMapping("/{habit-id}")
     @Operation(summary = "Get habit by ID")
-    public ResponseEntity<ApiResponse<Habit>> getUserById(@PathVariable("habit-id")  UUID habitId) {
+    public ResponseEntity<ApiResponse<Habit>> getUserById(@PathVariable("habit-id") UUID habitId) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Habit>builder()
+                        .success(true)
                         .timestamp(Instant.now())
                         .message("Get habit with ID " + habitId + " successfully")
                         .payload(habitService.getHabitById(habitId))
@@ -53,9 +53,10 @@ public class HabitController {
 
     @DeleteMapping("/{habit-id}")
     @Operation(summary = "Delete habit by ID")
-    public ResponseEntity<ApiResponse<Habit>> deleteUserById(@PathVariable("habit-id") @Positive(message = "Habit id cannot negative and zero number") UUID habitId) {
+    public ResponseEntity<ApiResponse<Habit>> deleteUserById(@PathVariable("habit-id") UUID habitId) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Habit>builder()
+                        .success(true)
                         .timestamp(Instant.now())
                         .message("Delete habit with ID " + habitId + " successfully")
                         .payload(habitService.deleteHabitById(habitId))

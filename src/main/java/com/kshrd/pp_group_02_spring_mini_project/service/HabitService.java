@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface HabitService {
-    List<Habit> getAllHabits(@Min(1) Integer page, @Min(1) Integer size);
+    List<Habit> getAllHabits(Integer page, Integer size);
 
-    Habit deleteHabitById(@Positive(message = "Habit id cannot negative and zero number") UUID habitId);
+    Habit deleteHabitById(UUID habitId);
 
-    Habit getHabitById( UUID habitId);
+    Habit getHabitById(UUID habitId);
 }

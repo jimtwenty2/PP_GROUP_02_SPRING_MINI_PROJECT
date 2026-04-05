@@ -19,9 +19,14 @@ import java.util.UUID;
 @MappedTypes(UUID.class)
 
 public class UuidTypeHandler extends BaseTypeHandler<UUID> {
+//    @Override
+//    public void setNonNullParameter(PreparedStatement ps, int i, UUID parameter, JdbcType jdbcType) throws SQLException {
+//        ps.setObject(i, parameter, jdbcType.TYPE_CODE);
+//    }
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, UUID parameter, JdbcType jdbcType) throws SQLException {
-        ps.setObject(i, parameter, jdbcType.TYPE_CODE);
+        // Use java.sql.Types.OTHER directly instead of jdbcType.TYPE_CODE
+        ps.setObject(i, parameter, java.sql.Types.OTHER);
     }
 
     @Override
