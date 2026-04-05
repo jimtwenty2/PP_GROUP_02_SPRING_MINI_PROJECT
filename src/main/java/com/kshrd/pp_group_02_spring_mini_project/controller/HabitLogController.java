@@ -21,10 +21,9 @@ import java.util.UUID;
 public class HabitLogController {
     private final HabitLogService habitLogService;
     @GetMapping("/{habit-id}")
-    @Operation(summary = "Create a new habit log by Habit Id",
+    @Operation(summary = "Get all habit logs by Its ID",
     description = "Fetches a paginated list of all habit logs for a specific habit by its ID.")
     public ResponseEntity<ApiResponse<List<HabitLog>>> getAllHabitLogHabitId(@PathVariable("habit-id") UUID habitId , @RequestParam int page  , @RequestParam int size ){
-
         List<HabitLog> habitLogs = habitLogService.getAllHabitLog(habitId , page , size);
 
         ApiResponse<List<HabitLog>> apiResponse = ApiResponse.<List<HabitLog>>builder()
@@ -38,11 +37,8 @@ public class HabitLogController {
     }
 
 
-
-    @Operation(
-            summary = "Create a new habbit log",
-            description = "Creates a new log for a specific habit with the provided details."
-    )
+    @Operation(summary = "Create a new habit log by Habit Id",
+            description = "Creates a new log for a specific habit with the provided details.")
     @PostMapping
     public ResponseEntity<ApiResponse<HabitLog>> postHabitLog(@RequestBody HabitLogRequest habitLogRequest) {
 
@@ -50,7 +46,7 @@ public class HabitLogController {
         HabitLog habitLog = new HabitLog();
         habitLog.setLogDate(LocalDate.now());
         habitLog.setStatus(habitLogRequest.getStatus());
-        habitLog.setXpEarned(0);
+        habitLog.setXpEarned(10);
         habitLog.setHabitId(habitLogRequest.getHabitId());
 
         HabitLog logAll = habitLogService.postHabitLog(habitLog);
