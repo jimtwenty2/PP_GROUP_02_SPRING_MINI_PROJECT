@@ -5,6 +5,9 @@ import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.HabitLog;
 import com.kshrd.pp_group_02_spring_mini_project.service.HabitLogService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +21,16 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/habit-logs")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class HabitLogController {
     private final HabitLogService habitLogService;
     @GetMapping("/{habit-id}")
     @Operation(summary = "Get all habit logs by Its ID",
     description = "Fetches a paginated list of all habit logs for a specific habit by its ID.")
-    public ResponseEntity<ApiResponse<List<HabitLog>>> getAllHabitLogHabitId(@PathVariable("habit-id") UUID habitId , @RequestParam int page  , @RequestParam int size ){
+    public ResponseEntity<ApiResponse<List<HabitLog>>> getAllHabitLogHabitId(
+            @PathVariable("habit-id") UUID habitId ,
+            @RequestParam(defaultValue = "1") @Positive int page  ,
+            @RequestParam(defaultValue = "10") @Positive int size ){
         List<HabitLog> habitLogs = habitLogService.getAllHabitLog(habitId , page , size);
 
         ApiResponse<List<HabitLog>> apiResponse = ApiResponse.<List<HabitLog>>builder()

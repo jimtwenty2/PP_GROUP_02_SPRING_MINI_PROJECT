@@ -56,7 +56,7 @@ public interface AppUserRepository {
     @ResultMap("appUserMapper")
     void updateUserIsVerified(AppUser user);
 
-    @Select("SELECT count(*) > 0 FROM app_users WHERE email = #{emalil};")
+    @Select("SELECT count(*) > 0 FROM app_users WHERE email = #{email};")
     boolean findExistenceByEmail(String email);
 
     @Select("SELECT count(*) > 0 FROM app_users WHERE username = #{username};")
@@ -79,6 +79,6 @@ public interface AppUserRepository {
             "   WHEN (xp + 10) >= 100 THEN 2 " +
             "   ELSE level " +
             "END " +
-            "WHERE email = #{identifier} OR username = #{identifier}")
-    void updateXpUser(String identifier);
+            "WHERE app_user_id = #{userId}")
+    void updateXpUser(UUID userId);
 }
