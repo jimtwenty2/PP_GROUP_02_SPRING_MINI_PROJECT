@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/test", "/api/v1/test/**").authenticated()
                         .requestMatchers("/api/v1/achievements", "/api/v1/achievements/**").authenticated()
                         .requestMatchers("/api/v1/habits", "/api/v1/habits/**").authenticated()
+                        .requestMatchers("/api/v1/profiles", "/api/v1/profiles/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

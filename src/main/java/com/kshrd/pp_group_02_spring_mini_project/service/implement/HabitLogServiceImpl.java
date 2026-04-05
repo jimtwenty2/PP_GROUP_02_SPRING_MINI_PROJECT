@@ -44,8 +44,7 @@ public class HabitLogServiceImpl implements HabitLogService {
         }
 
         System.out.println(identifier);
-        appUserRepository.updateXpUser(identifier);
-
+       // appUserRepository.updateXpUser(identifier);
 
         return habitLogRepository.insertHabitLog(habitLog);
     }

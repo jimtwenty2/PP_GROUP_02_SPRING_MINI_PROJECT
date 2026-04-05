@@ -15,9 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Habit {
     private UUID habitId;
-    @NotBlank(message = "title must not be blank")
     private String title;
-    @NotBlank(message = "description must not be blank")
     private String description;
     private Frequency frequency;
     private List<AppUserResponse> appUser;
