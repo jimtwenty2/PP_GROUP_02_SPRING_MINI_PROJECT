@@ -65,8 +65,29 @@ public class AuthController {
                 .payload(appUserResponse)
                 .timestamp(Instant.now())
                 .build();
-
         return ResponseEntity.status(HttpStatus.CREATED).body(appUserResponseApiResponse);
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOtp(@RequestParam String email, @RequestParam String otp){
+        boolean isVerified = appUserService.verifyOtp(email, otp);
+        if(isVerified){
+            return ResponseEntity.ok("OTP verified. Account activated!");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid or expired OTP.");
+        }
+    }
+
+    @PostMapping("/resend")
+    public ResponseEntity<?> resendOtp(@RequestParam String email){
+        try {
+            String newOtp = appUserService.resendOtp(email);
+            return ResponseEntity.ok("New OTP sent!");
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(ex.getMessage());
+        }
     }
 
 }
