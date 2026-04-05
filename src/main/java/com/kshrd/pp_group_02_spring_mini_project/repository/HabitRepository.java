@@ -14,10 +14,10 @@ public interface HabitRepository {
     @Results(id = "habitMapper", value = {
             @Result(property = "habitId", column = "habit_id", typeHandler = UuidTypeHandler.class, jdbcType = JdbcType.OTHER),
             @Result(property = "isActive", column = "is_active"),
-            @Result(property = "appUser", column = "app_user_id",
-                    one = @One(select = "com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository.findByUsernameOrEmail")
+            @Result(property = "appUserResponse", column = "app_user_id",
+                    one = @One(select = "com.kshrd.pp_group_02_spring_mini_project.repository.AppUserRepository.findByUserId")
             ),
-            @Result(property = "creatAt", column = "create_at")
+            @Result(property = "createdAt", column = "created_at")
 
     })
 
