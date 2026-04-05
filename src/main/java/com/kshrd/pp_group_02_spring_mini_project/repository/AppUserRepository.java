@@ -28,4 +28,14 @@ public interface AppUserRepository {
     """)
     @ResultMap("appUserMapper")
     AppUser saveAppUser(@Param("req") RegisterRequest appUserRequest);
+
+    @Select("""
+        SELECT * FROM app_users WHERE email = #{email};
+    """)
+    @ResultMap("appUserMapper")
+    AppUser findByEmail(String email);
+
+    @Update("UPDATE app_users SET is_verified = #{isVerified} WHERE email = #{email}")
+    @ResultMap("appUserMapper")
+    void updateUserIsVerified(AppUser user);
 }

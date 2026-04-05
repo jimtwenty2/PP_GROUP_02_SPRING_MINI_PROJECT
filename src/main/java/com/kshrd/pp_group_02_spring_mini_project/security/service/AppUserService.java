@@ -6,4 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AppUserService extends UserDetailsService {
     AppUserResponse register(RegisterRequest appUserRequest);
+
+    boolean verifyOtp(String email, String inputOtp);
+
+    String resendOtp(String email);
 }
