@@ -46,7 +46,7 @@ public class HabitLogController {
         HabitLog habitLog = new HabitLog();
         habitLog.setLogDate(LocalDate.now());
         habitLog.setStatus(habitLogRequest.getStatus());
-        habitLog.setXpEarned(0);
+        habitLog.setXpEarned(10);
         habitLog.setHabitId(habitLogRequest.getHabitId());
 
         HabitLog logAll = habitLogService.postHabitLog(habitLog);
