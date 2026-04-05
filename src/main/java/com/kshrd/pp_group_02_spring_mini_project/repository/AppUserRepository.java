@@ -3,6 +3,8 @@ package com.kshrd.pp_group_02_spring_mini_project.repository;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.request.RegisterRequest;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.AppUser;
 import com.kshrd.pp_group_02_spring_mini_project.typehandler.UuidTypeHandler;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
@@ -28,4 +30,23 @@ public interface AppUserRepository {
     """)
     @ResultMap("appUserMapper")
     AppUser saveAppUser(@Param("req") RegisterRequest appUserRequest);
+
+    @Select("""
+        SELECT * FROM app_users WHERE email = #{email};
+    """)
+    @ResultMap("appUserMapper")
+    AppUser findByEmail(String email);
+
+    @Update("UPDATE app_users SET is_verified = #{isVerified} WHERE email = #{email}")
+    @ResultMap("appUserMapper")
+    void updateUserIsVerified(AppUser user);
+
+    @Select("SELECT count(*) > 0 FROM app_users WHERE email = #{emalil};")
+    boolean findExistenceByEmail(String email);
+
+    @Select("SELECT count(*) > 0 FROM app_users WHERE username = #{username};")
+    boolean findExistenceByUsername(String username);
+
+    @Select("SELECT is_verified FROM app_users WHERE username = #{identifier} OR email = #{identifier};")
+    boolean checkIsVerifiedByIdentifier(String identifier);
 }

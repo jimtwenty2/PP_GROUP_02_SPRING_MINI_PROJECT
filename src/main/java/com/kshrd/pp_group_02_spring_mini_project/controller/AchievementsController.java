@@ -3,6 +3,9 @@ package com.kshrd.pp_group_02_spring_mini_project.controller;
 import com.kshrd.pp_group_02_spring_mini_project.model.dto.response.ApiResponse;
 import com.kshrd.pp_group_02_spring_mini_project.model.entity.Achievement;
 import com.kshrd.pp_group_02_spring_mini_project.service.AchievementService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,18 +15,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/achievements")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class AchievementsController {
 
     private final AchievementService achievementService;
 
+    @Operation(summary = "Get all achievements")
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Achievement>>> getAllAchievements(@RequestParam Integer page, @RequestParam Integer size){
+    public ResponseEntity<ApiResponse<List<Achievement>>> getAllAchievements(
+            @RequestParam @Positive Integer page,
+            @RequestParam @Positive Integer size){
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<List<Achievement>>builder()
                         .success(true)
@@ -35,9 +41,19 @@ public class AchievementsController {
         );
     }
 
+    @Operation(summary = "Get achievements by App User ID")
     @GetMapping("app-users")
-    public ResponseEntity<ApiResponse<List<Achievement>>> getAchievementsByAppUsers(){
-
-        return null;
+    public ResponseEntity<ApiResponse<List<Achievement>>> getAllAchievementsByAppUsers(
+            @RequestParam @Positive Integer page,
+            @RequestParam @Positive Integer size){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiResponse.<List<Achievement>>builder()
+                        .success(true)
+                        .message("Achievements for the specified App User retrieved successfully!")
+                        .status(HttpStatus.OK)
+                        .payload(achievementService.getAllAchievementsByAppUsers(page, size))
+                        .timestamp(Instant.now())
+                        .build()
+        );
     }
 }
